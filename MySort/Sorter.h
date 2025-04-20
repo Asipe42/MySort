@@ -40,4 +40,27 @@ public:
             std::swap(arr[i], arr[min_idx]);
         }
     }
+
+    template <typename Container>
+    static void bubble_sort(Container& arr, const size_t size)
+    {
+        /*
+         * 버블 정렬
+         *  - 인접한 두 값을 비교하여 정렬하는 방식
+         *  - 시간 복잡도 O(n^2)
+         *  - 공간 복잡도 O(1)
+         *  - 안정 정렬
+         */
+
+        for (size_t i = 0; i < size; i++)
+        {
+            for (size_t j = 0; j < size - i - 1; j++)
+            {
+                if (arr[j] > arr[j + 1])
+                {
+                    std::swap(arr[j], arr[j + 1]);
+                }
+            }
+        }
+    }
 };
