@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <set>
+#include <algorithm>
 
 class sorter
 {
@@ -88,5 +88,42 @@ public:
 
             arr[j + 1] = key;
         }
+    }
+
+    template <typename Container>
+    static void quick_sort(Container& arr, const size_t size)
+    {
+        /*
+         * 퀵 정렬
+         *  - 피벗을 선택해서, 피벗보다 작은 값은 왼쪽, 큰 값은 오른쪽으로 이동시키는 방식
+         *  - 이러한 과정을 분할이 불가능할 때까지 반복한다.
+         *  - 시간 복잡도 O(n log n)
+         *  - 공간 복잡도 O(log n)
+         *  - 불안정 정렬
+         */
+
+        /*
+         * 피벗 결정 방식
+         *  1. 첫 번째 값
+         *  2. 마지막 값
+         *  3. 중간값
+         *
+         *  1, 2번의 경우 이미 정렬된 배열 또는 역순으로 정렬된 배열에서 O(n^2)의 시간 복잡도를 가지게 된다.
+         *  따라서 3번의 중간 값을 피벗으로 선택하는 방식으로 구현한다.
+         */
+
+        int a = arr[0];
+        int b = arr[size - 1];
+        int c = arr[size / 2];
+
+        /*
+         * 증명
+         *  - a, b, c 중 하나는 반드시 중간값이다.
+         *  - min(a, b): 중간값이거나 최솟값이다.   
+         *  - max(a, b): 중간값이거나 최댓값이다.
+         *  - min(max(a, b), c): 중간값이거나 최솟값이다.
+         *  - max(min(a, b), min(max(a, b), c)): 중간값이거나 최솟값인 것 중에 큰 값은 당연히 중간값이다.      
+         */
+        int pivot = std::max(std::min(a, b), std::min(std::max(a, b), c));
     }
 };
