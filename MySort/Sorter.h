@@ -52,6 +52,11 @@ public:
          *  - 안정 정렬
          */
 
+        if (size == 0 || size == 1)
+        {
+            return;
+        }
+
         for (size_t i = 0; i < size; i++)
         {
             for (size_t j = 0; j < size - i - 1; j++)
@@ -74,6 +79,11 @@ public:
          *  - 공간 복잡도 O(1)
          *  - 안정 정렬
          */
+
+        if (size == 0 || size == 1)
+        {
+            return;
+        }
 
         for (int i = 1; i < size; i++)
         {
@@ -102,6 +112,18 @@ public:
          *  - 불안정 정렬
          */
 
+        if (size == 0 || size == 1)
+        {
+            return;
+        }
+
+        quick_sort_internal(arr, 0, size);
+    }
+
+private:
+    template <typename Container>
+    static void quick_sort_internal(Container& arr, int low, int high)
+    {
         /*
          * 피벗 결정 방식
          *  1. 첫 번째 값
@@ -112,10 +134,15 @@ public:
          *  따라서 3번의 중간 값을 피벗으로 선택하는 방식으로 구현한다.
          */
 
-        int a = arr[0];
-        int b = arr[size - 1];
-        int c = arr[size / 2];
-
+        if (low >= high)
+        {
+            return;
+        }
+        
+        const int a = arr[low];
+        const int b = arr[high - 1];
+        const int c = arr[high / 2];
+        
         /*
          * 증명
          *  - a, b, c 중 하나는 반드시 중간값이다.
@@ -125,5 +152,37 @@ public:
          *  - max(min(a, b), min(max(a, b), c)): 중간값이거나 최솟값인 것 중에 큰 값은 당연히 중간값이다.      
          */
         int pivot = std::max(std::min(a, b), std::min(std::max(a, b), c));
+        int pivot_index;
+
+        if (pivot == a)
+        {
+            pivot_index = low;
+        }
+        else if (pivot == b)
+        {
+            pivot_index = high - 1;
+        }
+        else
+        {
+            pivot_index = high / 2;
+        }
+
+        std::swap(arr[pivot_index], arr[high - 1]);
+        
+        int store_index = low - 1;
+        for (int i = low; i < high - 1; i++)
+        {
+            if (arr[i] < pivot)
+            {
+                store_index++;
+                std::swap(arr[i], arr[store_index]);
+            }
+        }
+
+        store_index++;
+        std::swap(arr[high - 1], arr[store_index]);
+        
+        quick_sort_internal(arr, low, store_index);
+        quick_sort_internal(arr, store_index + 1, high);
     }
 };
