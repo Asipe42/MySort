@@ -1,11 +1,19 @@
 ﻿#pragma once
 #include <algorithm>
 
-class sorter
+class Sorter
 {
 public:
     template <typename Container>
-    static void selection_sort(Container& arr, const size_t size)
+    static void PrintArray(const Container& arr)
+    {
+        for (const auto& val : arr)
+            std::cout << val << " ";
+        std::cout << std::endl;
+    }
+    
+    template <typename Container>
+    static void SelectionSort(Container& arr, const size_t size)
     {
         /*
          * 선택 정렬
@@ -37,12 +45,17 @@ public:
                 continue;
             }
 
-            std::swap(arr[i], arr[min_idx]);
+            if (i != min_idx)
+            {
+                std::swap(arr[i], arr[min_idx]);
+                std::cout << "Swap index " << i << " and " << min_idx << ": ";
+                PrintArray(arr);
+            }
         }
     }
 
     template <typename Container>
-    static void bubble_sort(Container& arr, const size_t size)
+    static void BubbleSort(Container& arr, const size_t size)
     {
         /*
          * 버블 정렬
@@ -59,18 +72,24 @@ public:
 
         for (size_t i = 0; i < size; i++)
         {
+            bool swapped = false;
             for (size_t j = 0; j < size - i - 1; j++)
             {
                 if (arr[j] > arr[j + 1])
                 {
                     std::swap(arr[j], arr[j + 1]);
+                    swapped = true;
+                    std::cout << "Swap index " << j << " and " << (j + 1) << ": ";
+                    PrintArray(arr);
                 }
             }
+            if (!swapped)
+                break;
         }
     }
 
     template <typename Container>
-    static void insertion_sort(Container& arr, const size_t size)
+    static void InsertionSort(Container& arr, const size_t size)
     {
         /*
          * 삽입 정렬
@@ -94,14 +113,18 @@ public:
             {
                 arr[j + 1] = arr[j];
                 j--;
+                std::cout << "Move " << arr[j + 1] << " to index " << (j + 2) << ": ";
+                PrintArray(arr);
             }
 
             arr[j + 1] = key;
+            std::cout << "Insert key " << key << " at index " << (j + 1) << ": ";
+            PrintArray(arr);
         }
     }
 
     template <typename Container>
-    static void quick_sort(Container& arr, const size_t size)
+    static void QuickSort(Container& arr, const size_t size)
     {
         /*
          * 퀵 정렬
@@ -117,12 +140,12 @@ public:
             return;
         }
 
-        quick_sort_internal(arr, 0, size);
+        QuickSortInternal(arr, 0, size);
     }
 
 private:
     template <typename Container>
-    static void quick_sort_internal(Container& arr, int low, int high)
+    static void QuickSortInternal(Container& arr, int low, int high)
     {
         /*
          * 피벗 결정 방식
@@ -168,6 +191,8 @@ private:
         }
 
         std::swap(arr[pivot_index], arr[high - 1]);
+        std::cout << "Pivot chosen: " << pivot << ", moved to index " << (high - 1) << std::endl;
+        PrintArray(arr);
         
         int store_index = low - 1;
         for (int i = low; i < high - 1; i++)
@@ -176,13 +201,17 @@ private:
             {
                 store_index++;
                 std::swap(arr[i], arr[store_index]);
+                std::cout << "Swap index " << i << " and " << store_index << ": ";
+                PrintArray(arr);
             }
         }
 
         store_index++;
         std::swap(arr[high - 1], arr[store_index]);
+        std::cout << "Move pivot to final place at index " << store_index << ": ";
+        PrintArray(arr);
         
-        quick_sort_internal(arr, low, store_index);
-        quick_sort_internal(arr, store_index + 1, high);
+        QuickSortInternal(arr, low, store_index);
+        QuickSortInternal(arr, store_index + 1, high);
     }
 };

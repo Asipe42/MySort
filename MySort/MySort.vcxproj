@@ -154,9 +154,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AlgorithmSelector.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NumberCollector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlgorithmSelector.h" />
+    <ClInclude Include="NumberCollector.h" />
     <ClInclude Include="Sorter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
